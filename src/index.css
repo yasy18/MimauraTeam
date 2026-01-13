@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mimaura Design System - Matching Figma exactly */
+
+@layer base {
+  :root {
+    /* Core Mimaura palette */
+    --background: 240 20% 98%;
+    --foreground: 260 30% 20%;
+
+    /* Mimi lavender purple tones */
+    --mimi-purple: 260 60% 75%;
+    --mimi-purple-dark: 260 50% 60%;
+    --mimi-purple-light: 260 70% 90%;
+    
+    /* Primary - Soft purple */
+    --primary: 260 60% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Cards - Soft white with subtle purple tint */
+    --card: 260 30% 98%;
+    --card-foreground: 260 30% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 260 30% 20%;
+
+    /* Secondary - Light lavender */
+    --secondary: 260 40% 95%;
+    --secondary-foreground: 260 30% 30%;
+
+    /* Muted tones */
+    --muted: 260 20% 94%;
+    --muted-foreground: 260 15% 50%;
+
+    /* Accent - Soft purple */
+    --accent: 260 50% 88%;
+    --accent-foreground: 260 40% 30%;
+
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 260 25% 90%;
+    --input: 260 25% 92%;
+    --ring: 260 60% 65%;
+
+    --radius: 1.25rem;
+
+    /* Gradient backgrounds */
+    --gradient-soft: linear-gradient(180deg, hsl(260 50% 95%) 0%, hsl(200 50% 95%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(260 40% 98%) 0%, hsl(260 50% 96%) 100%);
+    
+    /* Phase colors */
+    --follicular: 220 80% 65%;
+    --follicular-bg: 220 70% 95%;
+    --ovulation: 35 90% 60%;
+    --ovulation-bg: 35 85% 95%;
+    --luteal: 340 70% 65%;
+    --luteal-bg: 340 60% 95%;
+    --menstrual: 350 65% 70%;
+    --menstrual-bg: 350 55% 95%;
+
+    /* Goal card colors when selected */
+    --goal-purple: 260 60% 65%;
+    --goal-yellow: 45 95% 60%;
+    --goal-green: 160 50% 50%;
+    --goal-pink: 320 60% 70%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 260 30% 8%;
+    --foreground: 260 20% 95%;
+
+    --card: 260 25% 12%;
+    --card-foreground: 260 20% 95%;
+
+    --popover: 260 25% 10%;
+    --popover-foreground: 260 20% 95%;
+
+    --primary: 260 55% 70%;
+    --primary-foreground: 260 30% 10%;
+
+    --secondary: 260 30% 18%;
+    --secondary-foreground: 260 20% 90%;
+
+    --muted: 260 25% 15%;
+    --muted-foreground: 260 15% 60%;
+
+    --accent: 260 35% 20%;
+    --accent-foreground: 260 20% 90%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 260 25% 18%;
+    --input: 260 25% 18%;
+    --ring: 260 55% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'SF Pro Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@layer components {
+  .mimaura-gradient-bg {
+    background: linear-gradient(180deg, hsl(260 50% 95%) 0%, hsl(200 60% 94%) 50%, hsl(260 40% 96%) 100%);
+  }
+
+  .mimaura-card {
+    @apply bg-card rounded-3xl shadow-sm;
+    box-shadow: 0 2px 12px hsl(260 30% 80% / 0.15);
+  }
+
+  .mimaura-button {
+    @apply bg-primary text-primary-foreground rounded-full px-8 py-4 font-semibold;
+    box-shadow: 0 4px 12px hsl(260 60% 65% / 0.3);
+  }
+
+  .goal-card {
+    @apply rounded-2xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200;
+    background: hsl(var(--secondary));
+    border: 2px solid transparent;
+  }
+
+  .goal-card.selected {
+    background: linear-gradient(135deg, hsl(260 60% 65%) 0%, hsl(280 55% 60%) 100%);
+    color: white;
+  }
+
+  .phase-follicular {
+    background: linear-gradient(135deg, hsl(220 75% 60%) 0%, hsl(220 70% 70%) 100%);
+  }
+
+  .phase-ovulation {
+    background: linear-gradient(135deg, hsl(35 90% 55%) 0%, hsl(45 85% 60%) 100%);
+  }
+
+  .phase-luteal {
+    background: linear-gradient(135deg, hsl(340 65% 65%) 0%, hsl(350 60% 70%) 100%);
+  }
+
+  .phase-menstrual {
+    background: linear-gradient(135deg, hsl(350 60% 70%) 0%, hsl(340 55% 75%) 100%);
+  }
+}
+
+/* Custom scrollbar for mobile feel */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
