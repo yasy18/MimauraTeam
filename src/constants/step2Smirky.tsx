@@ -1,0 +1,1 @@
+export const Smirky = require('../assets/images/smirky.png');

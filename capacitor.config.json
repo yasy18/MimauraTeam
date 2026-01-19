@@ -1,0 +1,16 @@
+{
+  "appId": "com.mimaura.app",
+  "appName": "Mimaura",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "ios": {
+    "minVersion": "15.0"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

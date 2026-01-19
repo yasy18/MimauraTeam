@@ -1,207 +1,210 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronDown, ChevronUp, Check } from 'lucide-react';
-import Mimi from '../Mimi';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { BlurView } from 'expo-blur';
+import { LinearGradient } from "expo-linear-gradient";
+import React, { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Colors from '../../constants/colors';
+import { Smirky } from '../../constants/step2Smirky';
 
-interface OnboardingTrackingProps {
-  onNext: (selectedItems: Record<string, string[]>) => void;
-  onBack: () => void;
+
+export default function Step2({navigation}){
+    const [selectedCondition, setSelectedCondition] = useState([]);
+    function toggleConditionBox(index){
+        if(selectedCondition.includes(index)){
+            //if the user selects the condition that was already selected before remove the condition box from the array
+            setSelectedCondition(selectedCondition.filter(i=>i!==index))
+        }else{
+            //if the user selects new goal then add the goal box to the selectedGoals array
+            setSelectedCondition([...selectedCondition,index]);
+        }
+    }
+
+    function ConditionBox({ index, text}) {
+        const isSelected = selectedCondition.includes(index);
+        let content;
+        if (isSelected) {
+            content = (
+            <View style={[ {flex:1,width:'100%', backgroundColor: "rgba(44, 36, 63, 1)"}]}>
+                <View style={[styles.blur,{backgroundColor:'transparent'}]}>
+                    <Text style={[styles.conditionText, { color: "white" }]}>{text}</Text>
+                </View>
+            </View>
+        );
+    } else {
+        content = (
+            <BlurView intensity={30} tint="light" style={styles.blur}>
+                <Text style={styles.conditionText}>{text}</Text>
+            </BlurView>
+        );
+    }
+
+  return <TouchableOpacity onPress={() => toggleConditionBox(index)} style={styles.conditionBox}>{content}</TouchableOpacity>;
 }
 
-interface TrackingCategory {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  color: string;
-  items: string[];
+    return(
+        <LinearGradient colors={Colors.primaryGradient} style={styles.box}>
+            <View style={styles.textContainer}>
+                <Text style= {styles.header} > Any conditions we should consider? </Text>
+                <View style={styles.choiceContainer}>
+                    <View style={styles.wrapper}><Text style={styles.choice}> &#10003;  {selectedCondition.length}/9 chosen items</Text></View>
+                    
+                    <Image source={Smirky} style={styles.logo} resizeMode='cover'/>
+                    
+                </View>
+                
+                <View style = {styles.conditionContainer}>
+                    
+                    <ConditionBox index={1}  text={"PCOS"}/>
+                    <ConditionBox index={2} text={"Endometriosis"}/>
+                    <ConditionBox index={3} text={"Neurodivergence"}/>
+                    <ConditionBox index={4} text={"IBS"}/>
+                    <ConditionBox index={5} text={"Menopause"}/>
+                    <ConditionBox index={6} text={"PMDD"}/>
+                </View>
+                <Text style={styles.otherConditions} >Other conditions</Text>
+            
+                
+                <View style = {styles.conditionContainerII}>
+                    <ConditionBox index={7} text={"Thyroid issue"}/>
+                    <ConditionBox index={8} text={"Anxiety and Depression"}/>
+                    <ConditionBox index={9} text={"Migraines"}/>
+                </View>
+
+                <TouchableOpacity style={styles.button} onPress={() =>navigation.navigate('Step2')}>
+                                 <Text style={styles.buttonText}>Continue</Text>
+                </TouchableOpacity>
+                
+
+            </View>
+        </LinearGradient>
+    )
 }
+const styles = StyleSheet.create({
+    textContainer:{
+        position:'absolute', 
+        top:25, 
+        width:'100%', 
+        alignItems:'center',
+        zIndex:10,
+    },
+    header: {
+        width:'100%',
+        fontFamily:'Poppins', 
+        fontWeight:'500', 
+        fontSize:35,
+        color:'#000',
+        textAlign:'left',
+        marginLeft:50
+    },
+    
+    box: {
+        flex: 1, 
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    logo:{
+        width:200, 
+        height:200,
+     },
+    choice:{
+        fontFamily:'Poppins', 
+        fontWeight:'500', 
+        color:'#000',
+        fontSize:16,
+        textAlign:'center',
+    },
+    choiceContainer:{
+        flexDirection:'row',
+        justifyContent:'space-between', 
+        alignItems:'center',
+        width:'90%', 
+        marginBottom:40
+    },
+    wrapper:{ 
+        width:160, 
+        height:30, 
+        borderRadius:50,
+        borderColor:'#000',
+        backgroundColor: 'rgba(255,255,255,0.3)',
+        borderWidth:1,
+        alignContent:'center',
+        justifyContent:'center',
+        marginLeft:8,
+        marginBottom:150
+    },
 
-const trackingCategories: TrackingCategory[] = [
-  {
-    id: 'physical',
-    title: 'Physical Symptoms',
-    description: 'Track how your body feels throughout your cycle',
-    icon: '❤️',
-    color: 'text-rose-500',
-    items: ['Cramps', 'Headaches', 'Bloating', 'Skin Changes', 'Breast Tenderness'],
-  },
-  {
-    id: 'emotional',
-    title: 'Emotional Wellbeing',
-    description: 'Monitor your mental and emotional patterns',
-    icon: '💜',
-    color: 'text-purple-500',
-    items: ['Mood Swings', 'Anxiety', 'Irritability', 'Sadness', 'Joy'],
-  },
-  {
-    id: 'energy',
-    title: 'Energy & Activity',
-    description: 'Track your vitality and daily rhythms',
-    icon: '🌙',
-    color: 'text-indigo-500',
-    items: ['Energy Level', 'Exercise', 'Fatigue', 'Motivation', 'Focus'],
-  },
-  {
-    id: 'lifestyle',
-    title: 'Lifestyle Factors',
-    description: 'Track habits and environmental influences',
-    icon: '🌊',
-    color: 'text-cyan-500',
-    items: ['Sleep Quality', 'Stress', 'Diet', 'Hydration', 'Social Activity'],
-  },
-];
+    conditionContainer:{
+        width:'90%',
+        flexDirection:'row',
+        flexWrap:'wrap',
+        justifyContent:'space-between',
+        marginTop: -105, 
+        zIndex:5
 
-const OnboardingTracking: React.FC<OnboardingTrackingProps> = ({ onNext, onBack }) => {
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-  const [selectedItems, setSelectedItems] = useState<Record<string, string[]>>({});
+    },
+    conditionContainerII:{
+        width:'180%',
+        alignItems:'center',
+        
 
-  const toggleCategory = (categoryId: string) => {
-    setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
-  };
+    },
+    
+    conditionBox:{
+        width: '50%',              
+        height: 50,
+        borderRadius: 46,
+        overflow:'hidden',
+        borderWidth: 1,
+        borderColor:'#B2BEB5',
+        marginBottom: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOpacity: 0.06,
+        shadowRadius: 12,
+        shadowOffset: { width: 0, height: 4 },
+        
+        
+        
 
-  const toggleItem = (categoryId: string, item: string) => {
-    setSelectedItems(prev => {
-      const categoryItems = prev[categoryId] || [];
-      if (categoryItems.includes(item)) {
-        return {
-          ...prev,
-          [categoryId]: categoryItems.filter(i => i !== item),
-        };
-      } else {
-        return {
-          ...prev,
-          [categoryId]: [...categoryItems, item],
-        };
-      }
-    });
-  };
+    },
+    blur:{
+        flex:1, 
+        width:'100%',
+        height:'100%',
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor: 'rgba(255,255,255,0.22)',
+    },
+    conditionText:{
+        fontFamily:'Poppins', 
+        fontWeight:'500', 
+        color:'#000',
+        fontSize:15,
+        paddingTop:10,
+        
+    },
+    button:{
+        position:'absolute',
+        bottom:-90,
+        width:'90%',
+        height:'6%',
+        backgroundColor:'rgba(135, 89, 239, 0.6)',
+        opacity:10,
+        alignItems:'center',
+        borderRadius:25,
+        alignSelf:'center',
+        paddingVertical:5,
+        paddingHorizontal:15,
+        zIndex:10,
+        
+    },
+    buttonText:{color:'#FFFFFF',fontSize:20},
+    icon:{
+        marginBottom:4,
+    }, 
+    otherConditions:{
+        fontSize:18
+    }
+   
+})
 
-  const getTotalSelected = () => {
-    return Object.values(selectedItems).reduce((acc, items) => acc + items.length, 0);
-  };
-
-  const getCategorySelectedCount = (categoryId: string) => {
-    return (selectedItems[categoryId] || []).length;
-  };
-
-  return (
-    <div className="min-h-screen mimaura-gradient-bg flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 pt-12">
-        <button onClick={onBack} className="p-2 -ml-2">
-          <ChevronLeft className="w-6 h-6 text-foreground/70" />
-        </button>
-        <button className="text-primary font-medium">Skip</button>
-      </div>
-
-      {/* Progress indicator */}
-      <div className="px-6 mb-4">
-        <div className="h-1 bg-secondary rounded-full overflow-hidden">
-          <div className="h-full w-5/6 bg-primary rounded-full transition-all duration-300" />
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 px-6 pb-32 overflow-y-auto">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold text-foreground mb-1">
-              Choose what to track
-            </h1>
-            <p className="text-sm text-muted-foreground mb-3">
-              Select the symptoms and patterns you'd like to monitor. You can always adjust these later.
-            </p>
-            <div className="inline-flex items-center gap-1 px-3 py-1 bg-accent rounded-full">
-              <span className="text-sm text-accent-foreground">
-                ✓ {getTotalSelected()} chosen items
-              </span>
-            </div>
-          </div>
-          <Mimi variant="thinking" size="sm" className="ml-2" />
-        </div>
-
-        {/* Categories */}
-        <div className="space-y-3">
-          {trackingCategories.map((category) => (
-            <div key={category.id} className="bg-card rounded-2xl overflow-hidden shadow-soft">
-              <button
-                onClick={() => toggleCategory(category.id)}
-                className="w-full flex items-center justify-between p-4"
-              >
-                <div className="flex items-start gap-3">
-                  <span className={cn("text-lg", category.color)}>{category.icon}</span>
-                  <div className="text-left">
-                    <h3 className="font-semibold text-foreground">{category.title}</h3>
-                    <p className="text-xs text-muted-foreground">{category.description}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground">
-                    {getCategorySelectedCount(category.id)}/5
-                  </span>
-                  {expandedCategory === category.id ? (
-                    <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                  )}
-                </div>
-              </button>
-              
-              {expandedCategory === category.id && (
-                <div className="px-4 pb-4 space-y-2">
-                  {category.items.map((item) => {
-                    const isSelected = (selectedItems[category.id] || []).includes(item);
-                    return (
-                      <button
-                        key={item}
-                        onClick={() => toggleItem(category.id, item)}
-                        className={cn(
-                          "w-full py-3 px-4 rounded-xl text-sm font-medium transition-all",
-                          isSelected
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-                        )}
-                      >
-                        {item}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Quick actions */}
-        <div className="mt-4 space-y-2">
-          <Button
-            variant="outline"
-            className="w-full py-4 rounded-xl border-primary text-primary"
-          >
-            Select Recommended
-          </Button>
-          <Button
-            variant="ghost"
-            className="w-full py-4 rounded-xl text-muted-foreground"
-          >
-            Clear All
-          </Button>
-        </div>
-      </div>
-
-      {/* Continue Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-6 pb-8 bg-gradient-to-t from-background/80 to-transparent">
-        <Button
-          onClick={() => onNext(selectedItems)}
-          className="w-full py-6 rounded-full text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-button"
-        >
-          Continue
-        </Button>
-      </div>
-    </div>
-  );
-};
-
-export default OnboardingTracking;

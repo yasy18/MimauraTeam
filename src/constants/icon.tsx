@@ -1,0 +1,18 @@
+export const Icons = {
+    icon1: require('../assets/images/Icons/Vector.png'),
+    selectedIcon1: require('../assets/images/Icons/Vector white.png'),
+    icon2: require('../assets/images/Icons/lightning-bolt-weather-storm-energy-electricity-svgrepo-com 1.png'),
+    selectedIcon2: require('../assets/images/Icons/lightning-bolt-weather-storm-energy-electricity-svgrepo-com white.png'),
+    icon3: require('../assets/images/Icons/cup-of-coffee-svgrepo-com 1.png'),
+    selectedIcon3: require('../assets/images/Icons/cup-of-coffee-svgrepo-com white.png'),
+    icon4: require('../assets/images/Icons/leaf-73-svgrepo-com 1.png'),
+    selectedIcon4: require('../assets/images/Icons/leaf-73-svgrepo-com white.png'),
+    icon5: require('../assets/images/Icons/bed-double-fill-svgrepo-com 1.png'),
+    selectedIcon5: require('../assets/images/Icons/bed-double-fill-svgrepo-com white.png'),
+    icon6: require('../assets/images/Icons/brain-svgrepo-com 1.png'),
+    selectedIcon6: require('../assets/images/Icons/brain-svgrepo-com white.png'),
+    icon7: require('../assets/images/Icons/flower-svgrepo-com 1.png'),
+    selectedIcon7: require('../assets/images/Icons/flower-svgrepo-com white.png'),
+    icon8: require('../assets/images/Icons/avocado-svgrepo-com 1.png'),
+    selectedIcon8: require('../assets/images/Icons/avocado-svgrepo-com white.png'),
+}

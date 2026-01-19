@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Mimaura</string>
+    <string name="title_activity_main">Mimaura</string>
+    <string name="package_name">com.mimaura.app</string>
+    <string name="custom_url_scheme">com.mimaura.app</string>
+</resources>
